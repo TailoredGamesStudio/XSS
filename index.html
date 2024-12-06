@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر إلكتروني</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .product {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .product img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .product button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .product button:hover {
+            background-color: #0056b3;
+        }
+
+        .review-section {
+            margin: 20px;
+        }
+
+        .review-section input,
+        .review-section textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .review-section button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .review-section button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>مرحبًا بك في متجرنا الإلكتروني</h1>
+    </header>
+    <section class="products">
+        <div class="product">
+            <img src="ps5.jpeg" alt="صورة المنتج 1">
+            <h3>بلايستيشن فايف سليم مستخدم</h3>
+            <p>بلايستشن فايف سليم استخدام اربعه شهور فقط نظيف اخو الجديد سعره الف ريال سعودي فقط</p>
+            <button>إضافة إلى السلة</button>
+        </div>
+        <div class="product">
+            <img src="pc.jpg" alt="صورة المنتج 2">
+            <h3>PC Gaming</h3>
+            <p>i7 12700K - RTX 4070 Super - Asus Tuf Gaming Motherboard - Lian Li White Case - 32GB RAM DDR5 6400Mhz - 1200$</p>
+            <button>إضافة إلى السلة</button>
+        </div>
+        <!-- أضف المزيد من المنتجات -->
+    </section>
+
+    <section class="review-section">
+        <h2>اترك تعليقًا</h2>
+        <form id="reviewForm">
+            <input type="text" id="name" placeholder="اسمك" required>
+            <textarea id="comment" placeholder="تعليقك" rows="5" required></textarea>
+            <button type="submit">إرسال</button>
+        </form>
+        <div id="reviews"></div>
+    </section>
+
+    <script>
+        // ثغرة XSS: عرض التعليقات دون تنظيفها
+        const form = document.getElementById('reviewForm');
+        const reviews = document.getElementById('reviews');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+
+            // عرض التعليق مباشرة (مع ثغرة XSS)
+            reviews.innerHTML += `<p><strong>${name}:</strong> ${comment}</p>`;
+
+            form.reset();
+        });
+
+        // ثغرة أخرى: نافذة إشعار غير آمنة
+        const products = document.querySelectorAll('.product button');
+        products.forEach(button => {
+            button.addEventListener('click', () => {
+                const productName = button.parentElement.querySelector('h3').innerText;
+                alert(`تم إضافة ${productName} إلى السلة!`);
+            });
+        });
+    </script>
+<h6>ملاحظة هامة: هذا الموقع مزيف وفقط للتدريب ويحمل ثغرات ويمكن للهكر استغلالها لذا يفضل عدم ترك اي معلومات عنك</h6>
+</body>
+</html>
